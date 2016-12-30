@@ -14,12 +14,6 @@ class ProcessingCLI < Thor
 
   def create(sketch_name = nil)
     alphabet = ('a'..'z').to_a
-    now = Time.now
-
-    sketch_name_base = 'sketch_' +
-                       (now.year - 2000).to_s.ljust(2,'0') +
-                       now.mon.to_s.ljust(2, '0') +
-                       now.mday.to_s.ljust(2, '0')
 
     sketches_from_today = Dir.glob("#{sketch_name_base}[a-z]")
 
@@ -37,6 +31,12 @@ class ProcessingCLI < Thor
     puts " -*- #{sketch_name}"
 
     %x['/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl' #{sketch_file}]
+  end
+
+  private
+
+  def sketch_name_base
+    "sketch_#{Time.now.strftime('%y%m%d')}"
   end
 end
 
