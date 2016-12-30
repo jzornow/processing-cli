@@ -13,25 +13,26 @@ class ProcessingCLI < Thor
   LONGDESC
 
   def create(sketch_name = nil)
-    sketches_from_today = Dir.glob("#{sketch_name_base}[a-z]")
-
-    # Print the sketches that already exist
-    sketches_from_today.each { |sketch| puts " --- #{sketch}"}
-
-    letter_suffix = alphabet_letter_at_index(sketches_from_today.count)
-
-    sketch_name = sketch_name_base + letter_suffix unless sketch_name
+    sketch_name ||= generate_sketch_name
     sketch_file = "#{sketch_name}/#{sketch_name}.pde"
 
     FileUtils.mkdir sketch_name
     FileUtils.touch sketch_file
 
-    puts " -*- #{sketch_name}"
+    puts " -> Created #{sketch_name}"
 
     %x['/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl' #{sketch_file}]
   end
 
   private
+
+  def generate_sketch_name
+    sketch_name_base + alphabet_letter_at_index(sketches_generated_today.count)
+  end
+
+  def sketches_generated_today
+    Dir.glob("#{sketch_name_base}[a-z]")
+  end
 
   def sketch_name_base
     "sketch_#{Time.now.strftime('%y%m%d')}"
