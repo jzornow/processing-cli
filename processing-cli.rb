@@ -13,14 +13,12 @@ class ProcessingCLI < Thor
   LONGDESC
 
   def create(sketch_name = nil)
-    alphabet = ('a'..'z').to_a
-
     sketches_from_today = Dir.glob("#{sketch_name_base}[a-z]")
 
     # Print the sketches that already exist
     sketches_from_today.each { |sketch| puts " --- #{sketch}"}
 
-    letter_suffix = alphabet[sketches_from_today.count]
+    letter_suffix = alphabet_letter_at_index(sketches_from_today.count)
 
     sketch_name = sketch_name_base + letter_suffix unless sketch_name
     sketch_file = "#{sketch_name}/#{sketch_name}.pde"
@@ -37,6 +35,11 @@ class ProcessingCLI < Thor
 
   def sketch_name_base
     "sketch_#{Time.now.strftime('%y%m%d')}"
+  end
+
+  def alphabet_letter_at_index(index)
+    @alphabet ||= ('a'..'z').to_a
+    @alphabet[index]
   end
 end
 
