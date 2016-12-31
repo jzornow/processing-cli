@@ -1,4 +1,3 @@
-require 'fileutils'
 require 'thor'
 
 class ProcessingCLI < Thor
