@@ -1,4 +1,4 @@
-require 'processing_cli'
+require 'cli'
 
 shared_examples 'create sketch with name' do |name_type, expected_name|
   it "creates a sketch with the #{name_type}" do
@@ -12,9 +12,9 @@ shared_examples 'create sketch with name' do |name_type, expected_name|
   end
 end
 
-describe ProcessingCLI do
+describe CLI do
   describe :create do
-    let(:cli) { ProcessingCLI.new }
+    let(:cli) { CLI.new }
 
     context 'given a sketch name' do
       include_examples 'create sketch with name',

@@ -1,9 +1,9 @@
 require 'thor'
 
-class ProcessingCLI < Thor
+class CLI < Thor
   desc 'create <SKETCH_NAME>', 'Creates a sketch with name SKETCH_NAME.'
   long_desc <<-LONGDESC
-    Creates a sketch with name SKETCH_NAME. If no SKETCH_NAME is 
+    Creates a sketch with name SKETCH_NAME. If no SKETCH_NAME is
     provided, one is generated using the naming convention followed
     by Processing.app on Mac OSX:\n
       sketch_<year><month><day><sequential letter of the alphabet>\n
@@ -41,4 +41,4 @@ class ProcessingCLI < Thor
   end
 end
 
-ProcessingCLI.start(ARGV)
+CLI.start(ARGV)
