@@ -19,8 +19,6 @@ class ProcessingCLI < Thor
     FileUtils.touch sketch_file
 
     puts " -> Created #{sketch_name}"
-
-    %x['/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl' #{sketch_file}]
   end
 
   private
