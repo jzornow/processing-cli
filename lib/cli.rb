@@ -13,7 +13,8 @@ class CLI < Thor
   LONGDESC
 
   def create(sketch_name = nil)
-    directory.create_sketch sketch_name
+    sketch_created = directory.create_sketch sketch_name
+    puts " -> Created [#{sketch_created}]"
   end
 
   desc 'clone <SOURCE_SKETCH_NAME> <DESTINATION_SKETCH_NAME>', 'Clones sketch'
@@ -24,7 +25,8 @@ class CLI < Thor
   LONGDESC
 
   def clone(source, destination = nil)
-    directory.clone_sketch source, destination
+    sketch_created = directory.clone_sketch source, destination
+    puts " -> Cloned [#{source}] into [#{sketch_created}]"
   end
 
   private

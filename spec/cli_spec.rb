@@ -7,7 +7,12 @@ describe CLI do
         sketch_name = 'Some Sketch Name'
 
         expect_any_instance_of(Processing::SketchDirectory)
-          .to receive(:create_sketch).with(sketch_name)
+          .to receive(:create_sketch)
+                .with(sketch_name)
+                .and_return(sketch_name)
+
+          expect($stdout)
+            .to receive(:puts).with(" -> Created [#{sketch_name}]")
 
         CLI.new.create(sketch_name)
       end
@@ -21,7 +26,13 @@ describe CLI do
         destination_name = 'Apple'
 
         expect_any_instance_of(Processing::SketchDirectory)
-          .to receive(:clone_sketch).with(source_name, destination_name)
+          .to receive(:clone_sketch)
+          .with(source_name, destination_name)
+          .and_return(destination_name)
+
+        expect($stdout)
+          .to receive(:puts).with " -> Cloned [#{source_name}] into " \
+                                   "[#{destination_name}]"
 
         CLI.new.clone(source_name, destination_name)
       end

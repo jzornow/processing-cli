@@ -11,11 +11,6 @@ describe Processing::SketchDirectory do
       .to receive(:create).with(name)
   end
 
-  def expect_successful_creation_message(name)
-    expect($stdout)
-      .to receive(:puts).with(" -> Created #{name}")
-  end
-
   describe :create_sketch do
     context 'given a directory with no sketches from today' do
       let(:directory) do
@@ -27,7 +22,6 @@ describe Processing::SketchDirectory do
           name = 'Sketch'
 
           expect_sketch_created_with name
-          expect_successful_creation_message name
 
           directory.create_sketch(name)
         end
@@ -38,7 +32,6 @@ describe Processing::SketchDirectory do
           default_name = "#{sketch_name_base}a"
 
           expect_sketch_created_with default_name
-          expect_successful_creation_message default_name
 
           directory.create_sketch
         end
@@ -59,7 +52,6 @@ describe Processing::SketchDirectory do
         expected_name = "#{sketch_name_base}b"
 
         expect_sketch_created_with expected_name
-        expect_successful_creation_message expected_name
 
         directory.create_sketch
       end
@@ -85,11 +77,6 @@ describe Processing::SketchDirectory do
       end
 
       it 'creates a duplicate of that sketch with the next sequential name' do
-        successful_clone_message = " -> Cloned #{existing_sketch_name} into " \
-                                   "#{cloned_sketch_name}"
-        expect($stdout)
-          .to receive(:puts).with(successful_clone_message)
-
         directory.clone_sketch existing_sketch_name
 
         expect(Dir['*'])

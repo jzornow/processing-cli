@@ -8,9 +8,10 @@ module Processing
 
     def create_sketch(sketch_name = nil)
       sketch_name ||= generate_sketch_name
-      
+
       Sketch.create(sketch_name)
-      puts " -> Created #{sketch_name}"
+
+      sketch_name
     end
 
     def clone_sketch(source, destination)
@@ -20,7 +21,8 @@ module Processing
       Dir["#{destination}/#{source}*"].each do |file|
         FileUtils.mv(file, "#{destination}/#{destination}.pde")
       end
-      puts " -> Cloned #{source} into #{destination}"
+
+      destination
     end
 
     private
