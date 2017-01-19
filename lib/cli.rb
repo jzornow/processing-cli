@@ -16,6 +16,17 @@ class CLI < Thor
     directory.create_sketch sketch_name
   end
 
+  desc 'clone <SOURCE_SKETCH_NAME> <DESTINATION_SKETCH_NAME>', 'Clones sketch'
+  long_desc <<-LONGDESC
+    Copies sketch from SORUCE_SKETCH_NAME to DESTINATION_SKETCH_NAME. If no
+    DESTINATION_SKETCH_NAME is provided, the next available sketch name is
+    used as a default.
+  LONGDESC
+
+  def clone(source, destination = nil)
+    directory.clone_sketch source, destination
+  end
+
   private
 
   def directory

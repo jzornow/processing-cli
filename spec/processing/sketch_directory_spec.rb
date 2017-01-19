@@ -65,4 +65,36 @@ describe Processing::SketchDirectory do
       end
     end
   end
+
+  describe :clone_sketch do
+    context 'given a sketch' do
+      let(:existing_sketch_name) { "#{sketch_name_base}a" }
+      let(:cloned_sketch_name) { "#{sketch_name_base}b" }
+      let(:sketch_file_contents) { 'Some Text' }
+      let(:directory) { Processing::SketchDirectory.new(Dir) }
+
+      before(:each) do
+        directory = Processing::SketchDirectory.new(Dir)
+
+        FileUtils.mkdir(existing_sketch_name)
+        FileUtils.touch("#{existing_sketch_name}/#{existing_sketch_name}.pde")
+      end
+
+      after(:each) do
+        FileUtils.rm_rf [existing_sketch_name, cloned_sketch_name]
+      end
+
+      it 'creates a duplicate of that sketch with the next sequential name' do
+        successful_clone_message = " -> Cloned #{existing_sketch_name} into " \
+                                   "#{cloned_sketch_name}"
+        expect($stdout)
+          .to receive(:puts).with(successful_clone_message)
+
+        directory.clone_sketch existing_sketch_name
+
+        expect(Dir['*'])
+          .to include(cloned_sketch_name)
+      end
+    end
+  end
 end

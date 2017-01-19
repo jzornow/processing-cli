@@ -13,6 +13,16 @@ module Processing
       puts " -> Created #{sketch_name}"
     end
 
+    def clone_sketch(source, destination)
+      destination ||= generate_sketch_name
+      FileUtils.cp_r(source, destination)
+
+      Dir["#{destination}/#{source}*"].each do |file|
+        FileUtils.mv(file, "#{destination}/#{destination}.pde")
+      end
+      puts " -> Cloned #{source} into #{destination}"
+    end
+
     private
 
     def generate_sketch_name
