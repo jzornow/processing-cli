@@ -61,26 +61,59 @@ describe Processing::SketchDirectory do
   describe :clone_sketch do
     context 'given a sketch' do
       let(:existing_sketch_name) { "#{sketch_name_base}a" }
-      let(:cloned_sketch_name) { "#{sketch_name_base}b" }
       let(:sketch_file_contents) { 'Some Text' }
       let(:directory) { Processing::SketchDirectory.new(Dir) }
 
       before(:each) do
-        directory = Processing::SketchDirectory.new(Dir)
-
         FileUtils.mkdir(existing_sketch_name)
-        FileUtils.touch("#{existing_sketch_name}/#{existing_sketch_name}.pde")
+        File.write(
+          "#{existing_sketch_name}/#{existing_sketch_name}.pde",
+          sketch_file_contents
+        )
       end
 
       after(:each) do
-        FileUtils.rm_rf [existing_sketch_name, cloned_sketch_name]
+        FileUtils.rm_rf existing_sketch_name
       end
 
-      it 'creates a duplicate of that sketch with the next sequential name' do
-        directory.clone_sketch existing_sketch_name
+      context 'given a name for the destination to clone to' do
+        it 'creates a duplicate of that sketch with the name given' do
+          cloned_sketch_name = 'cloned_sketch'
 
-        expect(Dir['*'])
-          .to include(cloned_sketch_name)
+          directory.clone_sketch existing_sketch_name, cloned_sketch_name
+
+          expect(Dir['*'])
+            .to include(cloned_sketch_name)
+
+          cloned_file_contents = File.read(
+            "#{cloned_sketch_name}/#{cloned_sketch_name}.pde"
+          )
+
+          expect(cloned_file_contents)
+            .to eq(sketch_file_contents)
+
+          FileUtils.rm_rf cloned_sketch_name
+        end
+      end
+
+      context 'given no destination name' do
+        it 'creates a duplicate of that sketch with the next sequential name' do
+          expected_name = "#{sketch_name_base}b"
+
+          directory.clone_sketch existing_sketch_name, nil
+
+          expect(Dir['*'])
+            .to include(expected_name)
+
+          cloned_file_contents = File.read(
+            "#{expected_name}/#{expected_name}.pde"
+          )
+
+          expect(cloned_file_contents)
+            .to eq(sketch_file_contents)
+
+          FileUtils.rm_rf expected_name
+        end
       end
     end
   end
