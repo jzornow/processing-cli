@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'thor'
 require_relative './processing/sketch_directory'
 
