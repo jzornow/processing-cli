@@ -10,8 +10,6 @@ module Processing
       sketch_name ||= generate_sketch_name
 
       Sketch.create(sketch_name)
-
-      sketch_name
     end
 
     def clone_sketch(source, destination)
@@ -22,7 +20,7 @@ module Processing
         FileUtils.mv(file, "#{destination}/#{destination}.pde")
       end
 
-      destination
+      Sketch.new(destination)
     end
 
     private

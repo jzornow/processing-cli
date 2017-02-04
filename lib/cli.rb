@@ -18,7 +18,7 @@ class CLI < Thor
     sketch_created = directory.create_sketch sketch_name
     puts " -> Created [#{sketch_created}]"
 
-    open_in_editor(sketch_created)
+    open_in_editor sketch_created
   end
 
   desc 'clone <SOURCE_SKETCH_NAME> <DESTINATION_SKETCH_NAME>', 'Clones sketch'
@@ -32,17 +32,17 @@ class CLI < Thor
     sketch_created = directory.clone_sketch source, destination
     puts " -> Cloned [#{source}] into [#{sketch_created}]"
 
-    open_in_editor(sketch_created)
+    open_in_editor sketch_created
   end
 
   private
 
-  def directory
-    @directory ||= Processing::SketchDirectory.new
+  def open_in_editor(sketch)
+    sketch.open_in_editor
   end
 
-  def open_in_editor(sketch_file)
-    `$VISUAL #{sketch_file}`
+  def directory
+    @directory ||= Processing::SketchDirectory.new
   end
 end
 
