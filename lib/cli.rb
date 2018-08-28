@@ -29,6 +29,8 @@ class CLI < Thor
   LONGDESC
 
   def clone(source, destination = nil)
+    source = sanitize_sketch_name(source)
+
     sketch_created = directory.clone_sketch source, destination
     puts " -> Cloned [#{source}] into [#{sketch_created}]"
 
@@ -36,6 +38,11 @@ class CLI < Thor
   end
 
   private
+
+  def sanitize_sketch_name(name)
+    # in case the directory name is passed in, e.g. "sketch_20180604/"
+    name.tr('/', '')
+  end
 
   def open_in_editor(sketch)
     sketch.open_in_editor
