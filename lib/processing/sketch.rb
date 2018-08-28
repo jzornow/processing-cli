@@ -15,6 +15,10 @@ module Processing
       `$VISUAL #{path}` if ENV['VISUAL']
     end
 
+    def to_s
+      @name
+    end
+
     private
 
     def path
